@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="50" height="50" class="person-add-icon">
+  <style>
+    .person-add-icon {
+      stroke: white; /* Vert citron par défaut */
+      transition: stroke 0.3s ease, transform 0.3s ease; /* Transition douce sur la couleur et la taille */
+    }
+
+    .person-add-icon:hover {
+      stroke: white; /* Changement de couleur sur survol (vert clair) */
+      transform: scale(1.1); /* Agrandissement léger au survol */
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1)); /* Légère ombre */
+    }
+  </style>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14c3.866 0 7 1.343 7 3v3H5v-3c0-1.657 3.134-3 7-3z" />
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 14c-2.485 0-4.5-2.015-4.5-4.5S9.515 5 12 5s4.5 2.015 4.5 4.5S14.485 14 12 14z" />
+  <path stroke-linecap="round" stroke-linejoin="round" d="M20 8v4m2-2h-4" />
+</svg>
