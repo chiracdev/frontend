@@ -231,9 +231,9 @@ const handleLogin = async () => {
     error.value = "";
 
     await authStore.login({ email: email.value, password: password.value });
-    toast.success("connexion réussie !");
+      toast.success("connexion réussie !");
     // Redirection vers le dashboard après une connexion réussie
-    router.push("/Admin/dashboard");
+        router.push("/Admin/dashboard");
   } catch (e) {
     error.value = e.message || "Identifiants incorrects";
   } finally {

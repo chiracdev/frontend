@@ -4,13 +4,13 @@
   
   <div class="min-h-screen text-white bg-gradient-to-b from-[#9C7C13]">
     <div class="container px-4 py-12 mx-auto md:py-20">
-      <h3 class="mb-8 text-4xl font-bold text-center text-gray-50 md:text-5xl animate-fade-in-down drop-shadow-lg">
-        Congrès Ndogbatjeck 2025
+      <h3 class="mb-8 text-4xl font-bold text-center text-gray-50 md:text-6xl animate-fade-in-down drop-shadow-lg">
+        Congrès Ndogbatjeck 2026
       </h3>
 
       <div class="flex flex-col items-center md:flex-row md:space-x-8">
         <!-- Section d'image -->
-        <div class="w-full  mb-8 md:w-1/2 md:mb-0">
+        <div class="w-full mb-8 md:w-1/2 md:mb-0">
           <div class="relative overflow-hidden transition-all duration-700 rounded-lg shadow-2xl group">
             <img 
               src="@/assets/images/about.jpg" 
@@ -35,7 +35,7 @@
           <div class="p-6 transition-all transform bg-gray-800 rounded-lg shadow-inner hover:bg-gray-700 hover:shadow-2xl hover:-translate-y-2">
             <h2 class="mb-4 text-2xl font-bold text-yellow-400">Dates et lieu</h2>
             <p class="text-gray-300">
-              Le prochain congrès se déroulera du <span class="font-semibold">23 au 26 janvier 2025</span> dans le
+              Le prochain congrès se déroulera du <span class="font-semibold">23 au 26 janvier 2026</span> dans le
               village Bassa, situé dans la région du Littoral Cameroun. Ce lieu historique accueillera des festivités et
               des échanges enrichissants autour de notre culture et des défis contemporains de notre communauté.
             </p>

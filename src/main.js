@@ -15,6 +15,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 
 import Vue3EasyDataTable from "vue3-easy-data-table";
 import "vue3-easy-data-table/dist/style.css";
+import DataService from "./services/DataService";
 
 // Initialize the app
 const app = createApp(App);
@@ -23,12 +24,21 @@ app.use(createPinia());
 app.use(router);
 app.use(VueSweetalert2);
 app.use(Toast, {
-  position: POSITION.TOP_RIGHT,
-  theme: "bubble",
+    position: POSITION.TOP_RIGHT,
+    theme: "bubble",
 });
 
 // Register the EasyDataTable component globally
 app.component("EasyDataTable", Vue3EasyDataTable);
+
+// Track visitors on route changes
+router.afterEach(async () => {
+    try {
+        await DataService.post('/api/track-visitor');
+    } catch (e) {
+        console.error("Error tracking visitor:", e);
+    }
+});
 
 // Mount the app
 app.mount("#app");

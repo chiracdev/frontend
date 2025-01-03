@@ -1,3 +1,4 @@
+// frontend/src/stores/auth.js
 import { defineStore } from "pinia";
 import DataService from "../services/DataService";
 
@@ -13,19 +14,22 @@ export const useAuthStore = defineStore("auth", {
       DataService.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     },
 
-    async fetchUser () {
+    async fetchUser() {
       try {
-        const response = await DataService.get('/api/me');
+        const response = await DataService.get("/api/me");
         this.user = response.data.data; // Ajustez en fonction de la structure de votre réponse API
       } catch (error) {
-        console.error('Failed to fetch user:', error);
+        console.error("Failed to fetch user:", error);
         throw error; // Relancer l'erreur pour la gérer dans le composant
       }
     },
 
     async registerParticipant(participantData) {
       try {
-        const response = await DataService.post("/api/register/participant", participantData);
+        const response = await DataService.post(
+          "/api/register/participant",
+          participantData
+        );
         this.user = response.data.user;
         this.setToken(response.data.access_token);
       } catch (error) {
@@ -36,7 +40,10 @@ export const useAuthStore = defineStore("auth", {
 
     async registerSponsor(sponsorData) {
       try {
-        const response = await DataService.post("/api/register/sponsor", sponsorData);
+        const response = await DataService.post(
+          "/api/register/sponsor",
+          sponsorData
+        );
         this.user = response.data.user;
         this.setToken(response.data.access_token);
       } catch (error) {
@@ -45,10 +52,10 @@ export const useAuthStore = defineStore("auth", {
       }
     },
 
-    async login(credentials ) {
+    async login(credentials) {
       try {
         const response = await DataService.post("/api/login", credentials);
-        this.user = response.data.user;
+         this.user = response.data.user;
         this.setToken(response.data.access_token);
       } catch (error) {
         console.error("Login failed:", error);
@@ -70,7 +77,7 @@ export const useAuthStore = defineStore("auth", {
     async updateProfile(profileData) {
       try {
         const response = await DataService.put("/api/user/profile", profileData);
-        this.user = response.data.user;
+         this.user = response.data.user;
         return response.data.message;
       } catch (error) {
         console.error("Profile update failed:", error);

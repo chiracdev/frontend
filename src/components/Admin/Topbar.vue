@@ -57,13 +57,40 @@
               class="w-10 h-10 rounded-full ring-2 ring-white"
             />
           </div>
+           <button
+             @click="showLogoutModal = true"
+              class="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-orange-500 rounded-lg hover:bg-orange-600"
+               aria-label="Logout"
+           >
+               <span class="hidden md:inline">Déconnexion</span>
+               <i class="fas fa-sign-out-alt md:ml-2"></i>
+            </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div
+      v-if="showLogoutModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white rounded-lg p-6 shadow-xl">
+        <p class="text-lg font-semibold text-gray-800 mb-4">
+          Voulez-vous vraiment vous déconnecter ?
+        </p>
+        <div class="flex justify-end space-x-4">
           <button
-            @click="handleLogout"
-            class="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-orange-500 rounded-lg hover:bg-orange-600"
-            aria-label="Logout"
+            @click="showLogoutModal = false"
+            class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors duration-200"
           >
-            <span class="hidden md:inline">Déconnexion</span>
-            <i class="fas fa-sign-out-alt md:ml-2"></i>
+            Annuler
+          </button>
+          <button
+            @click="handleLogoutConfirm"
+             class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-200"
+          >
+            Déconnexion
           </button>
         </div>
       </div>
@@ -74,19 +101,20 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth"; // Import the auth store
+import { useAuthStore } from "@/stores/auth";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
 const router = useRouter();
-const authStore = useAuthStore(); // Initialize the store
+const authStore = useAuthStore();
 const scrolled = ref(false);
 const showNotifications = ref(false);
-const unreadNotifications = ref(0); // Initialize unread notifications count
-const userName = ref(""); // To hold the user's name
-const userType = ref(""); // To hold the user's type
-const userAvatar = ref("/images/avatar.avif"); // Chemin vers l'avatar dans le dossier public
-const notifications = ref([]); // Store notifications
+const unreadNotifications = ref(0);
+const userName = ref("");
+const userType = ref("");
+const userAvatar = ref("/images/avatar.avif");
+const notifications = ref([]);
+const showLogoutModal = ref(false);
 
 const handleScroll = () => {
   scrolled.value = window.scrollY > 20;
@@ -96,44 +124,48 @@ const toggleNotifications = () => {
   showNotifications.value = !showNotifications.value;
 };
 
-const handleLogout = async () => {
-  try {
-    await authStore.logout(); // Call the logout method from the store
-    toast.success(" deconnexion réussie !");
-    await router.push("/loginadmin");
-  } catch (error) {
-    console.error("Erreur lors de la déconnexion:", error);
-  }
+const handleLogout = () => {
+    showLogoutModal.value = true; // Show the modal instead of logging out immediately
 };
+
+const handleLogoutConfirm = async () => {
+    try {
+      showLogoutModal.value = false;
+        await authStore.logout();
+        toast.success("Déconnexion réussie !");
+        await router.push("/loginadmin");
+    } catch (error) {
+        console.error("Erreur lors de la déconnexion:", error);
+    }
+};
+
 
 const addNotification = (notification) => {
   notifications.value.push(notification);
-  unreadNotifications.value += 1; // Increment unread notifications count
+  unreadNotifications.value += 1;
 };
 
 onMounted(async () => {
   window.addEventListener("scroll", handleScroll);
-  try {
-    await authStore.fetchUser(); // Fetch user information on mount
-    if (authStore.user) {
-      userName.value = authStore.user.name; // Update user name
-      userType.value = authStore.user.type_user; // Update user type
-      userAvatar.value = authStore.user.avatar || "/images/avatar.avif"; // Update user avatar
+    try {
+        await authStore.fetchUser();
+        if (authStore.user) {
+            userName.value = authStore.user.name;
+            userType.value = authStore.user.type_user;
+             userAvatar.value = authStore.user.avatar || "/images/avatar.avif";
+        }
+        const newParticipantNotification = {
+            id: Date.now(),
+            title: "Nouvelle inscription",
+            message: "Un nouvel utilisateur s'est inscrit",
+        };
+        addNotification(newParticipantNotification);
+    } catch (error) {
+        console.error(
+            "Erreur lors de la récupération des informations de l'utilisateur:",
+            error
+        );
     }
-
-    // Simulate receiving a new notification (replace with actual API/WebSocket logic)
-    const newParticipantNotification = {
-      id: Date.now(), // Unique ID for the notification
-      title: "Nouvelle inscription",
-      message: "Un nouvel utilisateur s'est inscrit",
-    };
-    addNotification(newParticipantNotification); // Add the new notification
-  } catch (error) {
-    console.error(
-      "Erreur lors de la récupération des informations de l'utilisateur:",
-      error
-    );
-  }
 });
 
 onUnmounted(() => {

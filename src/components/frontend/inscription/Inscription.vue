@@ -243,25 +243,33 @@
 
             <!-- Étape 4: Activités et Thèmes -->
             <div v-if="currentStep === 4" class="space-y-4">
-                <div class="form-group">
+              <div class="form-group">
                     <label class="block mb-1 text-sm font-medium text-gray-700">
                         Souhaitez-vous participer à une activité au congrès ?
                     </label>
-                    <select
-                        v-model="selectedActivites"
-                        class="form-input"
-                        @change="handleActivityChange"
+                    <div class="space-y-2">
+                       <div
+                         v-for="activite in activitesList"
+                         :key="activite.id"
+                        class="flex items-center"
                     >
-                        <option value="">Sélectionner une activité</option>
-                        <option
-                            v-for="activite in activitesList"
-                            :key="activite.id"
-                            :value="activite.id"
-                        >
+                       <input
+                      type="checkbox"
+                       :id="`activite-${activite.id}`"
+                      v-model="formData.activite_id"
+                     :value="activite.id"
+                    class="w-4 h-4 text-[#06AE16] border-gray-300 rounded focus:ring-[#06AE16]"
+                />
+                     <label
+                     :for="`activite-${activite.id}`"
+                      class="ml-2 text-gray-700"
+                    >
                             {{ activite.NomActivite }} ({{ activite.DateDebut }} -
                             {{ activite.Lieu }})
-                        </option>
-                    </select>
+                        </label>
+                    </div>
+
+                    </div>
                 </div>
               <div class="form-group">
                 <label>Êtes-vous conférencier ?</label>
@@ -434,7 +442,7 @@ export default {
     const selectedVilleId = ref("");
     const showVillages = ref(false);
     const showThemes = ref(false);
-     const selectedActivites = ref("");
+     const selectedActivites = ref([]);
      const confettiLaunched = ref(false);
        const showPulse = ref(true); // Ajout de la variable showPulse
         let pulseTimeout = null;
@@ -536,9 +544,7 @@ export default {
         formData.value.themes = [];
       }
     };
-    const handleActivityChange = () => {
-        formData.value.activite_id = selectedActivites.value ? [selectedActivites.value] : [];
-      };
+  
 
     const getThemes = async () => {
       try {
@@ -614,8 +620,8 @@ export default {
           errors.value.estConferencier = "Cette question est requise";
           isValid = false;
         }
-          if (!selectedActivites.value) {
-           errors.value.selectedActivites = "Selectionez une activite ";
+        if (formData.value.activite_id.length === 0) {
+             errors.value.selectedActivites = "Selectionez une activite ";
              isValid = false;
          }
         if (
@@ -680,7 +686,7 @@ export default {
         dataToSubmit.estCantonNonParlant =
             dataToSubmit.estCantonNonParlant === "oui";
         dataToSubmit.estConferencier = dataToSubmit.estConferencier === "oui";
-         dataToSubmit.activite_id = selectedActivites.value? [selectedActivites.value] : [];
+      
         if (!dataToSubmit.estCantonNonParlant) {
             delete dataToSubmit.village_id;
         }
@@ -807,8 +813,6 @@ export default {
       showVillages,
       showThemes,
       handleConferencierChange,
-         handleActivityChange,
-      selectedActivites,
       currentStep,
       totalSteps,
       prevStep,

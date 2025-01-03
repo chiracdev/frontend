@@ -2,7 +2,7 @@ import DataService from './DataService';
 
 const PaysService = {
   // Récupérer la liste des pays
- 
+
 
   async getAllPays(search = '') {
     try {
