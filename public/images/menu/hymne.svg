@@ -1,0 +1,36 @@
+<!-- <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 640 480"
+    width="640"
+    height="480"
+>
+    <g fill="none">
+        
+     <rect x="213.33" width="213.33" height="480" fill="#007A33" />
+        <rect x="426.66" width="213.33" height="480" fill="#EF3340" />
+        <rect width="213.33" height="480" fill="#F9D40E" />
+           
+    </g>
+    <polygon
+        points="320,120 336,180 400,180 344,220 360,280 320,240 280,280 296,220 240,180 304,180"
+        fill="#F9D40E"
+    />
+</svg> -->
+
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="50" height="50" class="hymn-icon">
+  <style>
+    .hymn-icon {
+      fill:#FFFFFF; /* Couleur or (doré) */
+      transition: fill 0.3s ease, transform 0.3s ease;
+    }
+
+    .hymn-icon:hover {
+      fill:#FFFFFF; /* Changement à orange doré au survol */
+      transform: scale(1.1); /* Agrandissement léger au survol */
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2)); /* Légère ombre */
+    }
+  </style>
+  <path d="M12 3v10.55A4 4 0 1 0 14 17V8h4V3h-6z"></path>
+</svg>
+
